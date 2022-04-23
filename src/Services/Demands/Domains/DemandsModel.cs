@@ -1,8 +1,8 @@
-﻿using Demands.Consts;
+﻿using Eva.Demands.Const;
 
-namespace Demands.Domains;
+namespace Eva.Demands.Domains;
 
-public class DemandModel
+public class DemandsModel
 {
     public string Name { get; set; } = string.Empty;
 
@@ -16,5 +16,5 @@ public class DemandModel
 
     public DateOnly RealityAccomplishDate { get; set; }
 
-    public IEnumerable<DemandModuleModel> Modules { get; set; } = new List<DemandModuleModel>();
+    public IEnumerable<DemandsModuleModel> Modules { get; set; } = new List<DemandsModuleModel>();
 }

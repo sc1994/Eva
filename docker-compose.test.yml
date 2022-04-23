@@ -7,38 +7,6 @@ version: '3.4'
 
 services:
 
-  maildev:
-    ports:
-      - "5500:80"
-
-  rabbitmq:
-    ports:
-      - "5672:5672"
-
-  redis:
-    image: redis:alpine
-    ports:
-      - "5379:6379"
-
-  seq:
-    environment:
-      - ACCEPT_EULA=Y
-    ports:
-      - "5340:80"
-
-  sqldata:
-    environment:
-      - SA_PASSWORD=Pass@word
-      - ACCEPT_EULA=Y
-    ports:
-      - "5433:1433"
-    volumes:
-      - eshop-sqldata:/var/opt/mssql
-
-  zipkin:
-    ports:
-      - "5411:9411"
-
   basket-api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development

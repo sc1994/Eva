@@ -1,8 +1,8 @@
-﻿using Demands.Consts;
+﻿using Eva.Demands.Const;
 
-namespace Demands.Entities;
+namespace Eva.Demands.Entities;
 
-public class DemandItem : BaseEntity
+public class DemandsItem : BaseEntity
 {
     public string Name { get; set; } = string.Empty;
 

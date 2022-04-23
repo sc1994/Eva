@@ -1,8 +1,8 @@
-﻿using Demands.Consts;
+﻿using Eva.Demands.Const;
 
-namespace Demands.Domains;
+namespace Eva.Demands.Entities;
 
-public class DemandModuleModel : BaseModel
+public class DemandsModule : BaseEntity
 {
     public Guid DemandItemId { get; set; }
 
@@ -11,6 +11,4 @@ public class DemandModuleModel : BaseModel
     public string Description { get; set; } = String.Empty;
 
     public ModuleState State { get; set; }
-
-    public IEnumerable<ModuleTaskModel> Tasks { get; set; } = new List<ModuleTaskModel>();
 }

@@ -2,24 +2,6 @@ version: '3.4'
 
 services:
 
-  maildev:
-    image: maildev/maildev
-
-  rabbitmq:
-    image: rabbitmq:3-management-alpine
-
-  redis:
-    image: redis:alpine
-
-  seq:
-    image: datalust/seq:latest
-
-  sqldata:
-    image: mcr.microsoft.com/mssql/server:2017-latest 
-
-  zipkin:
-    image: openzipkin/zipkin-slim
-
   basket-api:
     image: ${REGISTRY:-eshopdapr}/basket.api:${TAG:-latest}
     build:

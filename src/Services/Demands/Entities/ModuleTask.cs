@@ -1,6 +1,6 @@
-﻿using Demands.Consts;
+﻿using Eva.Demands.Const;
 
-namespace Demands.Entities;
+namespace Eva.Demands.Entities;
 
 public class ModuleTask : BaseEntity
 {

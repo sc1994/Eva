@@ -3,17 +3,16 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:61988",
-      "sslPort": 44309
+      "applicationUrl": "http://localhost:41468",
+      "sslPort": 44326
     }
   },
   "profiles": {
-    "DemandsService": {
+    "SignalHub": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,
-      "applicationUrl": "https://localhost:7081",
-      "launchUrl": "swagger",
+      "applicationUrl": "https://localhost:7103;http://localhost:5244",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

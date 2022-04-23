@@ -1,8 +1,8 @@
-﻿using Demands.Consts;
+﻿using Eva.Demands.Const;
 
-namespace Demands.Domains;
+namespace Eva.Demands.Domains;
 
-public class ModuleTaskModel : BaseModel
+public abstract class ModuleTaskModel : BaseModel
 {
     public Guid DemandModuleId { get; set; }
 

@@ -4,7 +4,7 @@
         <TargetFramework>net6.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
-        <RootNamespace>Eva.Message</RootNamespace>
+        <RootNamespace>Eva.SignalHub</RootNamespace>
     </PropertyGroup>
 
 </Project>

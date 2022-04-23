@@ -1,4 +1,4 @@
-﻿namespace Demands.Domains;
+﻿namespace Eva.Demands.Domains;
 
 public class BaseModel
 {

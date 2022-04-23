@@ -4,6 +4,7 @@
         <TargetFramework>net6.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
+        <RootNamespace>Eva.Demands</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
@@ -13,6 +14,13 @@
     <ItemGroup>
       <PackageReference Include="FreeSql.Provider.Sqlite" Version="3.2.500" />
       <PackageReference Include="FreeSql.Repository" Version="3.2.500" />
+      <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.5" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Abstractions" />
+      <Folder Include="Controllers\DemandsModules\Dto" />
+      <Folder Include="Infrastructure" />
     </ItemGroup>
 
 </Project>

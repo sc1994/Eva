@@ -1,0 +1,41 @@
+version: '3.4'
+
+services:
+
+  maildev:
+    image: maildev/maildev
+    ports:
+      - "5500:80"
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    ports:
+      - "5672:5672"
+
+  redis:
+    image: redis:alpine
+    ports:
+      - "5379:6379"
+
+  seq:
+    image: datalust/seq:latest
+    environment:
+      - ACCEPT_EULA=Y
+    ports:
+      - "5340:80"
+  
+  zipkin:
+    image: openzipkin/zipkin-slim
+    ports:
+      - "5411:9411"
+  
+  agile_config:
+    image: kklldog/agile_config:latest
+    ports:
+      - "5000:5000"
+    environment:
+      - TZ=Asia/Shanghai
+      - adminConsole=true
+      - db:provider=sqlite
+      - db:conn= Data Source=agile_config.db
+  

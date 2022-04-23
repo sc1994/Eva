@@ -2,11 +2,17 @@ using Eva.ToolKit;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.AddCustomSerilog();
-builder.AddCustomAutoMapper();
+builder.Host.ConfigureAppConfiguration((_, config) =>
+{
+    config.AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", true, true);
+});
+
 builder.AddCustomAgileConfig();
 
-builder.Services.AddSingleton<IFreeSql>(provider =>
+builder.AddCustomSerilog();
+builder.AddCustomAutoMapper();
+
+builder.Services.AddSingleton<IFreeSql>(_ =>
 {
     var freeSql = new FreeSql.FreeSqlBuilder()
         .UseConnectionString(FreeSql.DataType.Sqlite, @"Data Source=|DataDirectory|\demands.db;Pooling=true;Max Pool Size=10")
@@ -16,10 +22,18 @@ builder.Services.AddSingleton<IFreeSql>(provider =>
     return freeSql;
 });
 
-
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-app.MapGet("/", () => "Hello World!");
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
+app.MapControllers();
 
 app.Run();
