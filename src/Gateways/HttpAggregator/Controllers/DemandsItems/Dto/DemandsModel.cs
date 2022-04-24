@@ -1,6 +1,6 @@
-﻿using Eva.Demands.Const;
+﻿using Eva.Demands.Domains;
 
-namespace Eva.Demands.Domains;
+namespace Eva.HttpAggregator.Controllers.DemandsItems.Dto;
 
 public class DemandsModel
 {

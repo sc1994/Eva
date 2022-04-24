@@ -1,12 +1,4 @@
 ﻿{
-  "iisSettings": {
-    "windowsAuthentication": false,
-    "anonymousAuthentication": true,
-    "iisExpress": {
-      "applicationUrl": "http://localhost:61988",
-      "sslPort": 44309
-    }
-  },
   "profiles": {
     "DemandsService": {
       "commandName": "Project",
@@ -15,14 +7,10 @@
       "applicationUrl": "https://localhost:7081",
       "launchUrl": "swagger",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      }
-    },
-    "IIS Express": {
-      "commandName": "IISExpress",
-      "launchBrowser": true,
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "AgileConfig_AppId": "DemandsID",
+        "AgileConfig_Secret": "Password@1",
+        "AgileConfig_Nodes": "http://localhost:5005"
       }
     }
   }

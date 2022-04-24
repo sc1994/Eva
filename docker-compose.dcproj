@@ -16,4 +16,7 @@
     <None Include=".dockerignore" />
     <None Include=".env" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="readme.md" />
+  </ItemGroup>
 </Project>

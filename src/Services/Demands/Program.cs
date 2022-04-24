@@ -2,11 +2,6 @@ using Eva.ToolKit;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Host.ConfigureAppConfiguration((_, config) =>
-{
-    config.AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", true, true);
-});
-
 builder.AddCustomAgileConfig();
 
 builder.AddCustomSerilog();

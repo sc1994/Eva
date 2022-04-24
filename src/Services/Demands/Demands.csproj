@@ -5,6 +5,7 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <RootNamespace>Eva.Demands</RootNamespace>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     </PropertyGroup>
 
     <ItemGroup>
@@ -21,6 +22,23 @@
       <Folder Include="Abstractions" />
       <Folder Include="Controllers\DemandsModules\Dto" />
       <Folder Include="Infrastructure" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="DemandsID.agileconfig.client.configs.cache" />
+      <None Remove="agile\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Remove="agile\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Remove="agile\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Remove="agile\**" />
     </ItemGroup>
 
 </Project>

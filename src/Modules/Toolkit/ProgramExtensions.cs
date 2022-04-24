@@ -14,15 +14,19 @@ public static class ProgramExtensions
 {
     public static void AddCustomSerilog(this WebApplicationBuilder builder)
     {
-        var seqServerUrl = builder.Configuration["SeqServerUrl"];
-        var appName = AppDomain.CurrentDomain.FriendlyName;
-
-        Log.Logger = new LoggerConfiguration()
+        var logConfig = new LoggerConfiguration()
             .ReadFrom.Configuration(builder.Configuration)
-            .WriteTo.Console()
-            .WriteTo.Seq(seqServerUrl)
-            .Enrich.WithProperty("ApplicationName", appName)
-            .CreateLogger();
+            .WriteTo.Console();
+
+        var seqServerUrl = builder.Configuration["SeqServerUrl"];
+        if (!string.IsNullOrWhiteSpace(seqServerUrl))
+        {
+            var appName = AppDomain.CurrentDomain.FriendlyName;
+            logConfig.WriteTo.Seq(seqServerUrl)
+                .Enrich.WithProperty("ApplicationName", appName);
+        }
+
+        Log.Logger = logConfig.CreateLogger();
 
         builder.Host.UseSerilog();
     }
@@ -31,9 +35,9 @@ public static class ProgramExtensions
     {
         void Options(ConfigClientOptions options)
         {
-            options.AppId = builder.Configuration["AgileConfig:AppId"];
-            options.Secret = builder.Configuration["AgileConfig:Secret"];
-            options.Nodes = builder.Configuration["AgileConfig:Nodes"];
+            options.AppId = builder.Configuration["AgileConfig_AppId"];
+            options.Secret = builder.Configuration["AgileConfig_Secret"];
+            options.Nodes = builder.Configuration["AgileConfig_Nodes"];
         }
 
         builder.Host.UseAgileConfig(Options);
