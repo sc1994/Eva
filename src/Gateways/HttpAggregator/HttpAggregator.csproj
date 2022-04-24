@@ -15,12 +15,19 @@
     
     <ItemGroup>
       <Folder Include="Controllers" />
+      <Folder Include="Controllers\DemandsItems\Dto" />
       <Folder Include="Infrastructure" />
       <Folder Include="Services" />
     </ItemGroup>
     
     <ItemGroup>
       <ProjectReference Include="..\..\Modules\Toolkit\Toolkit.csproj" />
+    </ItemGroup>
+    
+    <ItemGroup>
+      <Compile Remove="Controllers\DemandsItems\Dto\DemandsModel.cs" />
+      <Compile Remove="Controllers\DemandsItems\Dto\DemandsModuleModel.cs" />
+      <Compile Remove="Controllers\DemandsItems\Dto\ModuleTaskModel.cs" />
     </ItemGroup>
 
 </Project>

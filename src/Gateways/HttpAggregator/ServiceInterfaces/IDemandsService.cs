@@ -2,4 +2,5 @@
 
 public interface IDemandsService
 {
+    Task<string> CreateAsync(object request);
 }
