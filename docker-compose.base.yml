@@ -4,16 +4,22 @@ services:
 
   maildev:
     image: maildev/maildev
+    environment:
+      - TZ=Asia/Shanghai
     ports:
       - "5500:80"
 
   rabbitmq:
     image: rabbitmq:3-management-alpine
+    environment:
+      - TZ=Asia/Shanghai
     ports:
       - "5672:5672"
 
   redis:
     image: redis:alpine
+    environment:
+      - TZ=Asia/Shanghai
     ports:
       - "5379:6379"
 
@@ -21,13 +27,31 @@ services:
     image: datalust/seq:latest
     environment:
       - ACCEPT_EULA=Y
+      - TZ=Asia/Shanghai
     ports:
       - "5340:80"
   
   zipkin:
     image: openzipkin/zipkin-slim
+    environment:
+      - TZ=Asia/Shanghai
     ports:
       - "5411:9411"
+  
+  webstatus:
+    image: xabarilcoding/healthchecksui:5.0.0
+    environment:
+      TZ: Asia/Shanghai
+    ports:
+      - "5107:80"
+
+  dapr-placement:
+    image: "daprio/dapr:latest"
+    command: [ "./placement", "-port", "50000", "-log-level", "debug" ]
+    environment:
+      TZ: Asia/Shanghai
+    ports:
+      - "50000:50000"
   
   agile_config:
     image: kklldog/agile_config:latest
@@ -38,15 +62,9 @@ services:
       - adminConsole=true
       - db:provider=mysql
       - db:conn= database=configcenter;data source=${EXTERNAL_DNS_NAME_OR_IP};User Id=root;password=Password@1;port=3306
-  
-  webstatus:
-    image: xabarilcoding/healthchecksui:5.0.0
-
-  dapr-placement:
-    image: "daprio/dapr:latest"
-    command: [ "./placement", "-port", "50000", "-log-level", "debug" ]
-    ports:
-      - "50000:50000"
+    depends_on:
+      mysql:
+        condition: service_healthy
   
   mysql:
     command:
@@ -61,5 +79,12 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - /usr/local/docker/mysql/data:/var/lib/mysql
+      - ${EXTERNAL_BASE_PATH}docker/mysql/data:/var/lib/mysql
+    healthcheck:
+      test: [ "CMD", "mysql", "-u", "root", "-p", "Password@1", "-e", "SELECT 1" ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+      
   

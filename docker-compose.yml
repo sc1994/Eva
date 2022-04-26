@@ -13,6 +13,7 @@ services:
     depends_on:
       - demands
     command: ["./daprd","-app-id", "demands","-app-port", "80"]
+    network_mode: "service:demands"
 
   http-aggregator:
     image: ${REGISTRY:-eva}/http-aggregator:${TAG:-latest}
@@ -20,7 +21,7 @@ services:
       context: .
       dockerfile: src/Gateways/HttpAggregator/Dockerfile
     depends_on:
-      - demands
+      - demands-dapr
 
   http-aggregator-dapr:
     image: "daprio/daprd:1.6.0"
@@ -28,4 +29,5 @@ services:
     depends_on:
       - http-aggregator
     command: [ "./daprd","-app-id", "http-aggregator","-app-port", "80"]
+
     

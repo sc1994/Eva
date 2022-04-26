@@ -7,7 +7,7 @@
       "applicationUrl": "https://localhost:7066;http://localhost:5290",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "AgileConfig_AppId": "DemandsID",
+        "AgileConfig_AppId": "HttpAggregatorID",
         "AgileConfig_Secret": "Password@1",
         "AgileConfig_Nodes": "http://localhost:5005"
       }

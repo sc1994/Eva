@@ -8,18 +8,22 @@ version: '3.4'
 services:
   demands:
     environment:
+      - TZ=Asia/Shanghai
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:80
       - AgileConfig_AppId=DemandsID
       - AgileConfig_Secret=Password@1
       - AgileConfig_Nodes=http://${EXTERNAL_DNS_NAME_OR_IP}:5005
       - AgileConfig_Env=DEV
+    ports:
+      - "50002:50001"
     depends_on:
       - mysql
       - agile_config
   
   http-aggregator:
     environment:
+      - TZ=Asia/Shanghai
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:80
       - AgileConfig_AppId=HttpAggregatorID
@@ -27,4 +31,5 @@ services:
       - AgileConfig_Nodes=http://${EXTERNAL_DNS_NAME_OR_IP}:5005
       - AgileConfig_Env=DEV
     ports:
-      - "9526:80"
+      - "9001:80"
+      - "50001:50001"

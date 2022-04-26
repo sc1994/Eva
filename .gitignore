@@ -375,3 +375,5 @@ MigrationBackup/
 
 # macOS files
 .DS_Store
+
+docker/
