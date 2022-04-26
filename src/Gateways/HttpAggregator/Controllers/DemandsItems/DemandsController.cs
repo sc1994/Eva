@@ -1,5 +1,4 @@
 ﻿using Eva.HttpAggregator.ServiceInterfaces;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Eva.HttpAggregator.Controllers.DemandsItems;
 

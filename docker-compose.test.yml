@@ -21,7 +21,7 @@ services:
       mysql:
         condition: service_healthy
       agile_config:
-        condition: service_healthy
+        condition: service_started
   
   http-aggregator:
     environment:
@@ -39,4 +39,4 @@ services:
       mysql:
         condition: service_healthy
       agile_config:
-        condition: service_healthy
+        condition: service_started

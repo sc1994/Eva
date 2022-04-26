@@ -35,7 +35,7 @@ if (app.Environment.IsDevelopment())
         var swagger = JsonConvert.DeserializeObject<JObject>(response);
 
         var tmp = new List<JProperty>();
-        foreach (var jToken in swagger?["paths"] ?? throw new NullReferenceException("data[\"path\"]"))
+        foreach (var jToken in swagger?["paths"] ?? throw new NullReferenceException("swagger?[\"paths\"]"))
         {
             var item = (JProperty) jToken;
             tmp.Add(item);
