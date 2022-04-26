@@ -12,14 +12,16 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:80
       - AgileConfig_AppId=DemandsID
-      - AgileConfig_Secret=Password@1
+      - AgileConfig_Secret=${EXTERNAL_PASS_WORD}
       - AgileConfig_Nodes=http://${EXTERNAL_DNS_NAME_OR_IP}:5005
       - AgileConfig_Env=DEV
     ports:
       - "50002:50001"
     depends_on:
-      - mysql
-      - agile_config
+      mysql:
+        condition: service_healthy
+      agile_config:
+        condition: service_healthy
   
   http-aggregator:
     environment:
@@ -27,9 +29,14 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:80
       - AgileConfig_AppId=HttpAggregatorID
-      - AgileConfig_Secret=Password@1
+      - AgileConfig_Secret=${EXTERNAL_PASS_WORD}
       - AgileConfig_Nodes=http://${EXTERNAL_DNS_NAME_OR_IP}:5005
       - AgileConfig_Env=DEV
     ports:
       - "9001:80"
       - "50001:50001"
+    depends_on:
+      mysql:
+        condition: service_healthy
+      agile_config:
+        condition: service_healthy

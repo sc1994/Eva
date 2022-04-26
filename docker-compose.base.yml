@@ -61,10 +61,14 @@ services:
       - TZ=Asia/Shanghai
       - adminConsole=true
       - db:provider=mysql
-      - db:conn= database=configcenter;data source=${EXTERNAL_DNS_NAME_OR_IP};User Id=root;password=Password@1;port=3306
+      - db:conn= database=configcenter;data source=${EXTERNAL_DNS_NAME_OR_IP};User Id=root;password=${EXTERNAL_PASS_WORD};port=3306
     depends_on:
       mysql:
         condition: service_healthy
+    healthcheck:
+      test: "curl http://localhost:5005/admin/PasswordInited"
+      interval: 1s
+      retries: 120
   
   mysql:
     command:
@@ -75,16 +79,14 @@ services:
     image: mysql:latest
     environment:
       TZ: Asia/Shanghai
-      MYSQL_ROOT_PASSWORD: Password@1
+      MYSQL_ROOT_PASSWORD: ${EXTERNAL_PASS_WORD}
     ports:
       - "3306:3306"
     volumes:
       - ${EXTERNAL_BASE_PATH}docker/mysql/data:/var/lib/mysql
     healthcheck:
-      test: [ "CMD", "mysql", "-u", "root", "-p", "Password@1", "-e", "SELECT 1" ]
-      interval: 10s
-      timeout: 5s
-      retries: 3
-      start_period: 5s
+      test: "mysqladmin ping -h localhost -u root --password=${EXTERNAL_PASS_WORD}"
+      interval: 1s
+      retries: 120
       
   
