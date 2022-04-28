@@ -3,6 +3,7 @@ version: '3.4'
 services:
 
   maildev:
+    restart: always
     image: maildev/maildev
     environment:
       - TZ=Asia/Shanghai
@@ -10,6 +11,7 @@ services:
       - "5500:80"
 
   rabbitmq:
+    restart: always
     image: rabbitmq:3-management-alpine
     environment:
       - TZ=Asia/Shanghai
@@ -17,6 +19,7 @@ services:
       - "5672:5672"
 
   redis:
+    restart: always
     image: redis:alpine
     environment:
       - TZ=Asia/Shanghai
@@ -24,6 +27,7 @@ services:
       - "5379:6379"
 
   seq:
+    restart: always
     image: datalust/seq:latest
     environment:
       - ACCEPT_EULA=Y
@@ -32,6 +36,7 @@ services:
       - "5340:80"
   
   zipkin:
+    restart: always
     image: openzipkin/zipkin-slim
     environment:
       - TZ=Asia/Shanghai
@@ -39,6 +44,7 @@ services:
       - "5411:9411"
   
   webstatus:
+    restart: always
     image: xabarilcoding/healthchecksui:5.0.0
     environment:
       TZ: Asia/Shanghai
@@ -46,6 +52,7 @@ services:
       - "5107:80"
 
   dapr-placement:
+    restart: always
     image: "daprio/dapr:latest"
     command: [ "./placement", "-port", "50000", "-log-level", "debug" ]
     environment:
@@ -54,6 +61,7 @@ services:
       - "50000:50000"
   
   agile_config:
+    restart: always
     image: kklldog/agile_config:latest
     ports:
       - "5005:5000"
@@ -61,27 +69,28 @@ services:
       - TZ=Asia/Shanghai
       - adminConsole=true
       - db:provider=mysql
-      - db:conn= database=configcenter;data source=${EXTERNAL_DNS_NAME_OR_IP};User Id=root;password=${EXTERNAL_PASS_WORD};port=3306
+      - db:conn= database=configcenter;data source=${EXTERNAL_IP};User Id=root;password=${MYSQL_PASS_WORD};port=3306
     depends_on:
       mysql:
         condition: service_healthy
   
   mysql:
+    restart: always
+    image: mysql:latest
+    environment:
+      TZ: Asia/Shanghai
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PASS_WORD}
     command:
       --lower_case_table_names=1
       --character-set-server=utf8mb4
       --collation-server=utf8mb4_general_ci
       --explicit_defaults_for_timestamp=true
-    image: mysql:latest
-    environment:
-      TZ: Asia/Shanghai
-      MYSQL_ROOT_PASSWORD: ${EXTERNAL_PASS_WORD}
     ports:
       - "3306:3306"
     volumes:
-      - ${EXTERNAL_BASE_PATH}docker/mysql/data:/var/lib/mysql
+      - ${EXTERNAL_DATA_PATH}docker/mysql/data:/var/lib/mysql
     healthcheck:
-      test: "mysqladmin ping -h localhost -u root --password=${EXTERNAL_PASS_WORD}"
+      test: "mysqladmin ping -h localhost -u root --password=${MYSQL_PASS_WORD}"
       interval: 1s
       retries: 120
       

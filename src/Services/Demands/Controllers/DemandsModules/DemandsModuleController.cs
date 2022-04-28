@@ -1,21 +1,21 @@
-﻿using Eva.Demands.Controllers.DemandsItems.Dto;
+﻿using Eva.Demands.Controllers.DemandsModules.Dto;
 
-namespace Eva.Demands.Controllers.DemandsItems;
+namespace Eva.Demands.Controllers.DemandsModules;
 
-public class DemandsController : CrudController<DemandsItem, DemandsOutputDto, DemandsCreateDto, DemandsModifiedDto>
+public class DemandsModuleController : CrudController<DemandsModule, DemandsModuleOutputDto, DemandsModuleCreateDto, DemandsModuleModifiedDto>
 {
     private readonly IFreeSql _freeSql;
 
-    public DemandsController(IFreeSql freeSql, IMapper mapper) : base(freeSql, mapper)
+    public DemandsModuleController(IFreeSql freeSql, IMapper mapper) : base(freeSql, mapper)
     {
         _freeSql = freeSql;
     }
 
     [HttpPut("{id}/{state}")]
-    public async Task<bool> ModifyStateAsync([Required] Guid id, [Required] DemandState state)
+    public async Task<bool> ModifyStateAsync([Required] Guid id, [Required] ModuleState state)
     {
         using var uow = _freeSql.CreateUnitOfWork();
-        var repo = uow.GetRepository<DemandsItem>();
+        var repo = uow.GetRepository<DemandsModule>();
 
         var entity = await repo.Select.Where(x => !x.IsDeleted).Where(x => x.Id.Equals(id)).FirstAsync();
         if (entity == null)

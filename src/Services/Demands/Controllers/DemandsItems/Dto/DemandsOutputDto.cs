@@ -1,10 +1,17 @@
-﻿using Eva.Demands.Entities;
-using Eva.ToolKit;
-
-namespace Eva.Demands.Controllers.DemandsItems.Dto;
+﻿namespace Eva.Demands.Controllers.DemandsItems.Dto;
 
 [MapTo(typeof(DemandsItem))]
-public record DemandsOutputDto : BasePrimaryKey
+public record DemandsOutputDto : BaseOutputDto
 {
-    public string Name { get; init; } = string.Empty;
+    public string Name { get; set; } = string.Empty;
+
+    public string Description { get; set; } = string.Empty;
+
+    public DemandType Type { get; set; }
+
+    public DemandState State { get; set; }
+
+    public DateTime ExpectAccomplishDate { get; set; }
+
+    public DateTime RealityAccomplishDate { get; set; }
 }

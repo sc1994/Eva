@@ -1,4 +1,4 @@
-﻿using Eva.Demands.Const;
+﻿using FreeSql.DataAnnotations;
 
 namespace Eva.Demands.Entities;
 
@@ -10,11 +10,12 @@ public class ModuleTask : BaseEntity
 
     public string Description { get; set; } = string.Empty;
 
-    public DateOnly StartDate { get; set; }
+    public DateTime StartDate { get; set; }
 
-    public DateOnly EndDate { get; set; }
+    public DateTime EndDate { get; set; }
     
     public TaskPriority Priority { get; set; }
     
+    [Column(MapType = typeof(int))]
     public TaskState State { get; set; }
 }

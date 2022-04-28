@@ -14,7 +14,6 @@
     </ItemGroup>
     
     <ItemGroup>
-      <Folder Include="Controllers" />
       <Folder Include="Controllers\DemandsItems\Dto" />
       <Folder Include="Infrastructure" />
     </ItemGroup>

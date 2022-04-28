@@ -12,10 +12,4 @@ public class DemandsController : ControllerBase
     {
         _demandsService = demandsService;
     }
-
-    [HttpGet]
-    public async Task<string> Test()
-    {
-        return await _demandsService.CreateAsync(new {Name = "aaa"});
-    }
 }

@@ -1,8 +1,8 @@
 version: '3.4'
 
 # The default docker-compose.override file can use the "localhost" as the external name for testing web apps within the same dev machine.
-# The ESHOP_EXTERNAL_DNS_NAME_OR_IP environment variable is taken, by default, from the ".env" file defined like:
-#     ESHOP_EXTERNAL_DNS_NAME_OR_IP=localhost
+# The ESHOP_EXTERNAL_IP environment variable is taken, by default, from the ".env" file defined like:
+#     ESHOP_EXTERNAL_IP=localhost
 # but values present in the environment vars at runtime will always override those defined inside the .env file
 
 services:
@@ -11,17 +11,13 @@ services:
       - TZ=Asia/Shanghai
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:80
+      - DatabaseConnection= database=demands;data source=${EXTERNAL_IP};User Id=root;password=${MYSQL_PASS_WORD};port=3306
       - AgileConfig_AppId=DemandsID
-      - AgileConfig_Secret=${EXTERNAL_PASS_WORD}
-      - AgileConfig_Nodes=http://${EXTERNAL_DNS_NAME_OR_IP}:5005
+      - AgileConfig_Secret=${CONFIGCENTER_PASS_WORD}
+      - AgileConfig_Nodes=http://${EXTERNAL_IP}:5005
       - AgileConfig_Env=DEV
     ports:
       - "50002:50001"
-    depends_on:
-      mysql:
-        condition: service_healthy
-      agile_config:
-        condition: service_started
   
   http-aggregator:
     environment:
@@ -29,14 +25,9 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:80
       - AgileConfig_AppId=HttpAggregatorID
-      - AgileConfig_Secret=${EXTERNAL_PASS_WORD}
-      - AgileConfig_Nodes=http://${EXTERNAL_DNS_NAME_OR_IP}:5005
+      - AgileConfig_Secret=${CONFIGCENTER_PASS_WORD}
+      - AgileConfig_Nodes=http://${EXTERNAL_IP}:5005
       - AgileConfig_Env=DEV
     ports:
       - "9001:80"
       - "50001:50001"
-    depends_on:
-      mysql:
-        condition: service_healthy
-      agile_config:
-        condition: service_started

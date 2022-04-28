@@ -1,7 +1,7 @@
 ﻿namespace Eva.Demands.Controllers.DemandsItems.Dto;
 
 [MapTo(typeof(DemandsItem))]
-public record DemandsCreateDto
+public record DemandsModifiedDto
 {
     [Required] public string Name { get; set; } = string.Empty;
 

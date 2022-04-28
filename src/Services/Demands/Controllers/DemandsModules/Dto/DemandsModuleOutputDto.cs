@@ -1,8 +1,6 @@
-﻿using FreeSql.DataAnnotations;
+namespace Eva.Demands.Controllers.DemandsModules.Dto;
 
-namespace Eva.Demands.Entities;
-
-public class DemandsModule : BaseEntity
+public record DemandsModuleOutputDto : BaseOutputDto
 {
     public Guid DemandsId { get; set; }
 
@@ -10,6 +8,5 @@ public class DemandsModule : BaseEntity
 
     public string Description { get; set; } = String.Empty;
 
-    [Column(MapType = typeof(int))]
     public ModuleState State { get; set; }
 }

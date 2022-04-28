@@ -18,4 +18,7 @@ RUN dotnet publish "Gateways/HttpAggregator/HttpAggregator.csproj" -c Release -o
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+
+RUN apt-get update && apt-get install -y curl
+
 ENTRYPOINT ["dotnet", "HttpAggregator.dll"]
