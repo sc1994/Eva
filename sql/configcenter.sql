@@ -321,27 +321,6 @@ INSERT INTO agc_user VALUES
     ('super_admin', 'admin', '7AA45C15EE5FDDE45B032C2A4C3C3EFE', '0cef4041edf34c3aa9230acac0ab142a', '', '2022-04-25 20:58:01.298', NULL, 'Normal');
 
 -- 
--- Dumping data for table agc_sys_log
---
-INSERT INTO agc_sys_log VALUES
-                            (1, NULL, 'Normal', '2022-04-25 20:58:01.314', '超级管理员密码初始化成功'),
-                            (2, NULL, 'Normal', '2022-04-25 20:58:08.148', 'admin 登录成功'),
-                            (3, NULL, 'Normal', '2022-04-25 20:58:12.009', '用户：admin 添加节点：http://localhost:5005'),
-                            (4, NULL, 'Normal', '2022-04-25 20:58:46.13', '用户：admin 新增应用【AppId：PublicID】【AppName：Public】'),
-                            (5, NULL, 'Normal', '2022-04-25 20:59:21.57', '用户：admin 新增应用【AppId：DemandsID】【AppName：Demands】'),
-                            (6, NULL, 'Normal', '2022-04-25 21:00:17.696', '用户：admin 新增应用【AppId：HttpAggregatorID】【AppName：HttpAggregator】'),
-                            (7, 'PublicID', 'Normal', '2022-04-25 21:00:39.77', '用户：admin 新增配置【Group：】【Key：SeqServerUrl】【AppId：PublicID】【Env：DEV】【待发布】'),
-                            (8, 'PublicID', 'Normal', '2022-04-25 21:00:43.008', '用户：admin 发布配置【AppId：PublicID】【Env：DEV】【版本：20220425210042】'),
-                            (9, 'HttpAggregatorID', 'Normal', '2022-04-26 10:28:56.79', '用户：admin 新增配置【Group：】【Key：ProxySettings】【AppId：HttpAggregatorID】【Env：DEV】【待发布】'),
-                            (10, 'HttpAggregatorID', 'Normal', '2022-04-26 11:02:07.003', '用户：admin 编辑配置【Group：】【Key：ProxySettings】【AppId：HttpAggregatorID】【Env：DEV】【待发布】'),
-                            (11, 'HttpAggregatorID', 'Normal', '2022-04-26 14:19:33.474', '用户：admin 发布配置【AppId：HttpAggregatorID】【Env：DEV】【版本：20220426141933】'),
-                            (12, NULL, 'Normal', '2022-04-26 14:57:33.983', '用户：admin 添加节点：http://192.168.0.135:5005'),
-                            (13, NULL, 'Warn', '2022-04-26 15:02:09.429', '用户：admin 删除节点：http://localhost:5005'),
-                            (14, 'HttpAggregatorID', 'Normal', '2022-04-26 17:28:32.041', '用户：admin 编辑配置【Group：】【Key：ProxySettings】【AppId：HttpAggregatorID】【Env：DEV】【待发布】'),
-                            (15, 'HttpAggregatorID', 'Normal', '2022-04-26 17:28:34.526', '用户：admin 发布配置【AppId：HttpAggregatorID】【Env：DEV】【版本：20220426172834】'),
-                            (16, 'HttpAggregatorID', 'Normal', '2022-04-26 17:28:34.587', '通知节点【http://192.168.0.135:5005】应用【HttpAggregatorID】的客户端：【reload】 响应：成功');
-
--- 
 -- Dumping data for table agc_setting
 --
 INSERT INTO agc_setting VALUES

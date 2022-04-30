@@ -6,6 +6,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Serilog;
 
 namespace Eva.ToolKit;
@@ -69,5 +70,13 @@ public static class ProgramExtensions
                 cfg.AddMaps(assemblies);
             }).CreateMapper();
         });
+    }
+
+    public static void AddCustomHealthChecks(this WebApplicationBuilder builder)
+    {
+        builder.Services
+            .AddHealthChecks()
+            .AddCheck("self", () => HealthCheckResult.Healthy())
+            .AddCheck<DaprHealthCheck>("dapr");
     }
 }

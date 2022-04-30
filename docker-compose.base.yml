@@ -88,7 +88,7 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - ${EXTERNAL_DATA_PATH}docker/mysql/data:/var/lib/mysql
+      - ${EXTERNAL_DATA_PATH}mysql/data:/var/lib/mysql
     healthcheck:
       test: "mysqladmin ping -h localhost -u root --password=${MYSQL_PASS_WORD}"
       interval: 1s

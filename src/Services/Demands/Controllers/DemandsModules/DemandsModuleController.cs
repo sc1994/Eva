@@ -11,19 +11,19 @@ public class DemandsModuleController : CrudController<DemandsModule, DemandsModu
         _freeSql = freeSql;
     }
 
-    [HttpPut("{id}/{state}")]
-    public async Task<bool> ModifyStateAsync([Required] Guid id, [Required] ModuleState state)
+    [HttpPut("ModifyState")]
+    public async Task<bool> ModifyStateAsync(DemandsModuleModifyStateDto input)
     {
         using var uow = _freeSql.CreateUnitOfWork();
         var repo = uow.GetRepository<DemandsModule>();
 
-        var entity = await repo.Select.Where(x => !x.IsDeleted).Where(x => x.Id.Equals(id)).FirstAsync();
+        var entity = await repo.Select.Where(x => !x.IsDeleted).Where(x => x.Id.Equals(input.Id)).FirstAsync();
         if (entity == null)
         {
             return false;
         }
 
-        entity.State = state;
+        entity.State = input.State;
         entity.ModifiedBy = UserName;
         entity.ModifiedDate = DateTime.Now;
 

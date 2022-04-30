@@ -1,12 +1,15 @@
 using Eva.HttpAggregator.ServiceInterfaces;
 using Eva.HttpAggregator.Services.DemandsServices;
 using Eva.HttpAggregator.Services.ProxyServices;
+using HealthChecks.UI.Client;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddCustomAgileConfig();
 builder.AddCustomAutoMapper();
 builder.AddCustomSerilog();
+builder.AddCustomHealthChecks();
 
 builder.Services.AddDaprClient();
 builder.Services.AddControllers();
@@ -40,5 +43,16 @@ if (app.Environment.IsDevelopment())
 }
 
 app.MapControllers();
+app.MapSubscribeHandler();
+
+app.MapHealthChecks("/hc", new HealthCheckOptions()
+{
+    Predicate = _ => true,
+    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+});
+app.MapHealthChecks("/liveness", new HealthCheckOptions
+{
+    Predicate = r => r.Name.Contains("self")
+});
 
 app.Run();

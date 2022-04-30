@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using Dapr;
 using Eva.HttpAggregator.ServiceInterfaces;
 
 namespace Eva.HttpAggregator.Controllers;
@@ -32,8 +33,13 @@ public class ProxyController : ControllerBase
         using var request = _daprClient.CreateInvokeMethodRequest(HttpMethod.Get, appid, methodName);
         var response = await _daprClient.InvokeMethodWithResponseAsync(request);
         var data = await response.Content.ReadAsStringAsync();
-        var swagger = JsonConvert.DeserializeObject<JObject>(data);
 
+        if (response.StatusCode != HttpStatusCode.OK)
+        {
+            throw new ServiceRequestException($"Failed to get {methodName} from {appid}", response.StatusCode, data);
+        }
+
+        var swagger = JsonConvert.DeserializeObject<JObject>(data);
         var tmp = new List<JProperty>();
         foreach (var jToken in swagger?["paths"] ?? throw new NullReferenceException("swagger?[\"paths\"]"))
         {
@@ -122,7 +128,7 @@ public class ProxyController : ControllerBase
             StatusCode = (int) response.StatusCode
         };
     }
-    
+
     [HttpDelete]
     [Route("/proxy/{appid}/{methodName}")]
     [Route("/proxy/{appid}/{methodName}/{param1}")]

@@ -51,9 +51,9 @@ public abstract class CrudController<TEntity, TOutputDto, TCreateDto, TModifiedD
     }
 
     [HttpPut("{id}")]
-    public virtual async Task<TOutputDto> ModifyByIdAsync([Required] Guid id, [Required] [DisallowNull] TModifiedDto dto)
+    public virtual async Task<TOutputDto> ModifyByIdAsync([Required] Guid id, [Required] [DisallowNull] TModifiedDto input)
     {
-        if (dto == null) throw new ArgumentNullException(nameof(dto));
+        if (input == null) throw new ArgumentNullException(nameof(input));
 
         var uow = _freeSql.CreateUnitOfWork();
         var repo = uow.GetRepository<TEntity>();
@@ -63,7 +63,7 @@ public abstract class CrudController<TEntity, TOutputDto, TCreateDto, TModifiedD
             throw new NullReferenceException(nameof(entity));
         }
 
-        _mapper.Map(dto, entity);
+        _mapper.Map(input, entity);
         entity.ModifiedBy = UserName;
         entity.ModifiedDate = DateTime.Now;
 
@@ -74,13 +74,13 @@ public abstract class CrudController<TEntity, TOutputDto, TCreateDto, TModifiedD
     }
 
     [HttpPost]
-    public virtual async Task<TOutputDto> CreateAsync([Required] [DisallowNull] TCreateDto dto)
+    public virtual async Task<TOutputDto> CreateAsync([Required] [DisallowNull] TCreateDto input)
     {
-        if (dto == null) throw new ArgumentNullException(nameof(dto));
+        if (input == null) throw new ArgumentNullException(nameof(input));
 
         var uow = _freeSql.CreateUnitOfWork();
         var repo = uow.GetRepository<TEntity>();
-        var entity = _mapper.Map<TEntity>(dto);
+        var entity = _mapper.Map<TEntity>(input);
 
         entity.CreatedBy = UserName;
         entity.CreatedDate = DateTime.Now;
