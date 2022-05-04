@@ -12,7 +12,7 @@ builder.Services.AddSingleton<IFreeSql>(_ =>
 {
     var freeSql = new FreeSql.FreeSqlBuilder()
         .UseConnectionString(FreeSql.DataType.MySql, builder.Configuration["DatabaseConnection"])
-        .UseAutoSyncStructure(true) 
+        .UseAutoSyncStructure(true)
         .Build();
 
     return freeSql;
@@ -29,19 +29,12 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.MapGet("/", () => Results.LocalRedirect("~/swagger"));
 }
 
 app.MapControllers();
 app.MapSubscribeHandler();
 
-app.MapHealthChecks("/hc", new HealthCheckOptions()
-{
-    Predicate = _ => true,
-    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
-});
-app.MapHealthChecks("/liveness", new HealthCheckOptions
-{
-    Predicate = r => r.Name.Contains("self")
-});
+app.UseCustomHealthChecks();
 
 app.Run();

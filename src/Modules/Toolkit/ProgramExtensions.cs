@@ -3,8 +3,11 @@
 using System.Reflection;
 using AgileConfig.Client;
 using AutoMapper;
+using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Serilog;
@@ -78,5 +81,18 @@ public static class ProgramExtensions
             .AddHealthChecks()
             .AddCheck("self", () => HealthCheckResult.Healthy())
             .AddCheck<DaprHealthCheck>("dapr");
+    }
+
+    public static void UseCustomHealthChecks(this IEndpointRouteBuilder app)
+    {
+        app.MapHealthChecks("/hc", new HealthCheckOptions()
+        {
+            Predicate = _ => true,
+            ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+        });
+        app.MapHealthChecks("/liveness", new HealthCheckOptions
+        {
+            Predicate = r => r.Name.Contains("self")
+        });
     }
 }
