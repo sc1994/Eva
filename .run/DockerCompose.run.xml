@@ -1,0 +1,19 @@
+﻿<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="DockerCompose" type="docker-deploy" factoryName="docker-compose.yml" singleton="false" server-name="Docker">
+    <deployment type="docker-compose.yml">
+      <settings>
+        <option name="envFilePath" value="" />
+        <option name="commandLineOptions" value="--build" />
+        <option name="secondarySourceFiles">
+          <list>
+            <option value="docker-compose.yml" />
+          </list>
+        </option>
+        <option name="sourceFilePath" value="docker-compose.test.yml" />
+      </settings>
+    </deployment>
+    <method v="2">
+      <option name="LaunchBrowser.Before.Run" url="localhost:9001" />
+    </method>
+  </configuration>
+</component>

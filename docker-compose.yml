@@ -13,7 +13,7 @@ services:
       retries: 10
       
   demands-dapr:
-    image: "daprio/daprd:1.7.0"
+    image: "daprio/daprd:1.6.0"
     network_mode: "service:demands"
     depends_on:
       demands:
@@ -32,7 +32,7 @@ services:
       retries: 10
 
   http-aggregator-dapr:
-    image: "daprio/daprd:1.7.0"
+    image: "daprio/daprd:1.6.0"
     network_mode: "service:http-aggregator"
     depends_on:
       http-aggregator:

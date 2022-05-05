@@ -35,6 +35,8 @@ var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
+    app.MapGet("/", () => Results.LocalRedirect("~/swagger"));
+    
     app.UseSwagger();
 
     app.UseSwaggerUI(options =>

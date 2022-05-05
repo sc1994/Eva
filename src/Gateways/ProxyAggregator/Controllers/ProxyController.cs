@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using System.Text;
 using Eva.ProxyAggregator.Options;
 
 namespace Eva.ProxyAggregator.Controllers;
@@ -10,12 +11,14 @@ public class ProxyController : ControllerBase
     private readonly DaprClient _daprClient;
     private readonly ProxySetting _proxySetting;
     private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly ILogger<ProxyController> _logger;
 
-    public ProxyController(DaprClient daprClient, ProxySetting proxySetting, IHttpContextAccessor httpContextAccessor)
+    public ProxyController(DaprClient daprClient, ProxySetting proxySetting, IHttpContextAccessor httpContextAccessor, ILogger<ProxyController> logger)
     {
         _daprClient = daprClient;
         _proxySetting = proxySetting;
         _httpContextAccessor = httpContextAccessor;
+        _logger = logger;
     }
 
     [HttpGet]
@@ -72,7 +75,14 @@ public class ProxyController : ControllerBase
             throw new NullReferenceException(nameof(service));
         }
 
-        var httpMethod = _httpContextAccessor.HttpContext?.Request.Method.ToLower();
+        var request = _httpContextAccessor.HttpContext?.Request;
+
+        if (request == null)
+        {
+            throw new NullReferenceException(nameof(request));
+        }
+
+        var httpMethod = request.Method.ToLower();
 
         if (string.IsNullOrWhiteSpace(httpMethod))
         {
@@ -84,18 +94,22 @@ public class ProxyController : ControllerBase
             throw new NotSupportedException($"not supported {httpMethod}");
         }
 
-        var method = httpMethod switch
+        using var proxyRequest = _daprClient.CreateInvokeMethodRequest(new HttpMethod(httpMethod), appid, proxyMethod);
+        if (!HttpMethods.IsGet(httpMethod) &&
+            !HttpMethods.IsHead(httpMethod) &&
+            !HttpMethods.IsDelete(httpMethod) &&
+            !HttpMethods.IsTrace(httpMethod))
         {
-            "get" => HttpMethod.Get,
-            "post" => HttpMethod.Post,
-            "put" => HttpMethod.Put,
-            "delete" => HttpMethod.Delete,
-            "options" => HttpMethod.Options,
-            "head" => HttpMethod.Head,
-            _ => throw new NotSupportedException($"not supported {httpMethod}")
-        };
-        using var request = _daprClient.CreateInvokeMethodRequest(method, appid, proxyMethod);
-        var response = await _daprClient.InvokeMethodWithResponseAsync(request);
+            var streamContent = new StreamContent(request.Body);
+            proxyRequest.Content = streamContent;
+        }
+
+        if (!string.IsNullOrWhiteSpace(request.QueryString.Value))
+        {
+            proxyRequest.RequestUri = new Uri(proxyRequest.RequestUri ?? throw new NullReferenceException(nameof(proxyRequest.RequestUri)), request.QueryString.Value);
+        }
+
+        var response = await _daprClient.InvokeMethodWithResponseAsync(proxyRequest);
 
         return new ContentResult
         {
@@ -104,113 +118,4 @@ public class ProxyController : ControllerBase
             StatusCode = (int) response.StatusCode
         };
     }
-
-    // [HttpGet]
-    // [Route("/proxy/{appid}/{methodName}")]
-    // [Route("/proxy/{appid}/{methodName}/{param1}")]
-    // [Route("/proxy/{appid}/{methodName}/{param1}/{param2}")]
-    // [Route("/proxy/{appid}/{methodName}/{param1}/{param2}/{param3}")]
-    // [Route("/proxy/{appid}/{methodName}/{param1}/{param2}/{param3}/{param4}")]
-    // [Route("/proxy/{appid}/{methodName}/{param1}/{param2}/{param3}/{param4}/{param5}")]
-    // [Route("/proxy/{appid}/{methodName}/{param1}/{param2}/{param3}/{param4}/{param5}/{param6}")]
-    // public async Task<ContentResult> HandleGet(string appid, string methodName)
-    // {
-    //     methodName = GetFullMethodName(methodName);
-    //
-    //     using var request = _daprClient.CreateInvokeMethodRequest(HttpMethod.Get, appid, methodName);
-    //     var response = await _daprClient.InvokeMethodWithResponseAsync(request);
-    //
-    //     return new ContentResult
-    //     {
-    //         ContentType = response.Content.Headers.ContentType?.MediaType ?? "text/plain",
-    //         Content = await response.Content.ReadAsStringAsync(),
-    //         StatusCode = (int) response.StatusCode
-    //     };
-    // }
-    //
-    // [HttpPost]
-    // [Route("/proxy/{appid}/{methodName}")]
-    // [Route("/proxy/{appid}/{methodName}/{param1}")]
-    // [Route("/proxy/{appid}/{methodName}/{param1}/{param2}")]
-    // [Route("/proxy/{appid}/{methodName}/{param1}/{param2}/{param3}")]
-    // [Route("/proxy/{appid}/{methodName}/{param1}/{param2}/{param3}/{param4}")]
-    // [Route("/proxy/{appid}/{methodName}/{param1}/{param2}/{param3}/{param4}/{param5}")]
-    // [Route("/proxy/{appid}/{methodName}/{param1}/{param2}/{param3}/{param4}/{param5}/{param6}")]
-    // public async Task<ContentResult> HandlePost(string appid, string methodName, [FromBody] object body)
-    // {
-    //     methodName = GetFullMethodName(methodName);
-    //
-    //     using var request = _daprClient.CreateInvokeMethodRequest(HttpMethod.Post, appid, methodName, body);
-    //     var response = await _daprClient.InvokeMethodWithResponseAsync(request);
-    //
-    //     return new ContentResult
-    //     {
-    //         ContentType = response.Content.Headers.ContentType?.MediaType ?? "text/plain",
-    //         Content = await response.Content.ReadAsStringAsync(),
-    //         StatusCode = (int) response.StatusCode
-    //     };
-    // }
-    //
-    // [HttpPut]
-    // [Route("/proxy/{appid}/{methodName}")]
-    // [Route("/proxy/{appid}/{methodName}/{param1}")]
-    // [Route("/proxy/{appid}/{methodName}/{param1}/{param2}")]
-    // [Route("/proxy/{appid}/{methodName}/{param1}/{param2}/{param3}")]
-    // [Route("/proxy/{appid}/{methodName}/{param1}/{param2}/{param3}/{param4}")]
-    // [Route("/proxy/{appid}/{methodName}/{param1}/{param2}/{param3}/{param4}/{param5}")]
-    // [Route("/proxy/{appid}/{methodName}/{param1}/{param2}/{param3}/{param4}/{param5}/{param6}")]
-    // public async Task<ContentResult> HandlePut(string appid, string methodName, [FromBody] object body)
-    // {
-    //     methodName = GetFullMethodName(methodName);
-    //
-    //     using var request = _daprClient.CreateInvokeMethodRequest(HttpMethod.Put, appid, methodName, body);
-    //     var response = await _daprClient.InvokeMethodWithResponseAsync(request);
-    //
-    //     return new ContentResult
-    //     {
-    //         ContentType = response.Content.Headers.ContentType?.MediaType ?? "text/plain",
-    //         Content = await response.Content.ReadAsStringAsync(),
-    //         StatusCode = (int) response.StatusCode
-    //     };
-    // }
-    //
-    // [HttpDelete]
-    // [Route("/proxy/{appid}/{methodName}")]
-    // [Route("/proxy/{appid}/{methodName}/{param1}")]
-    // [Route("/proxy/{appid}/{methodName}/{param1}/{param2}")]
-    // [Route("/proxy/{appid}/{methodName}/{param1}/{param2}/{param3}")]
-    // [Route("/proxy/{appid}/{methodName}/{param1}/{param2}/{param3}/{param4}")]
-    // [Route("/proxy/{appid}/{methodName}/{param1}/{param2}/{param3}/{param4}/{param5}")]
-    // [Route("/proxy/{appid}/{methodName}/{param1}/{param2}/{param3}/{param4}/{param5}/{param6}")]
-    // public async Task<ContentResult> HandleDelete(string appid, string methodName)
-    // {
-    //     methodName = GetFullMethodName(methodName);
-    //
-    //     using var request = _daprClient.CreateInvokeMethodRequest(HttpMethod.Delete, appid, methodName);
-    //     var response = await _daprClient.InvokeMethodWithResponseAsync(request);
-    //
-    //     return new ContentResult
-    //     {
-    //         ContentType = response.Content.Headers.ContentType?.MediaType ?? "text/plain",
-    //         Content = await response.Content.ReadAsStringAsync(),
-    //         StatusCode = (int) response.StatusCode
-    //     };
-    // }
-    //
-    // private string GetFullMethodName(string methodName)
-    // {
-    //     var paramCount = 1;
-    //     while (true)
-    //     {
-    //         var param = _httpContextAccessor.HttpContext?.Request.RouteValues[$"param{paramCount++}"];
-    //         if (param == null)
-    //         {
-    //             break;
-    //         }
-    //
-    //         methodName += $"/{param}";
-    //     }
-    //
-    //     return methodName;
-    // }
 }
