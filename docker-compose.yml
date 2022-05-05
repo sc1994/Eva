@@ -25,7 +25,7 @@ services:
     image: ${REGISTRY:-eva}/http-aggregator:${TAG:-latest}
     build:
       context: .
-      dockerfile: src/Gateways/HttpAggregator/Dockerfile
+      dockerfile: src/Gateways/ProxyAggregator/Dockerfile
     healthcheck:
       test: "curl --fail http://localhost/liveness || exit 1"
       interval: 3s

@@ -1,6 +1,4 @@
-using Eva.HttpAggregator.ServiceInterfaces;
-using Eva.HttpAggregator.Services.DemandsServices;
-using Eva.HttpAggregator.Services.ProxyServices;
+using Eva.ProxyAggregator.Options;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 
@@ -17,8 +15,21 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHttpContextAccessor();
 
-builder.Services.AddSingleton<IDemandsService, DemandsService>();
-builder.Services.AddSingleton<IProxyService, ProxyService>();
+builder.Services.Configure<ProxySetting>(builder.Configuration.GetSection("ProxySetting"));
+builder.Services.AddScoped<ProxySetting>(provider =>
+{
+    try
+    {
+        var json = builder.Configuration["ProxySetting"];
+
+        return JsonConvert.DeserializeObject<ProxySetting>(json) ?? new ProxySetting();
+    }
+    catch (Exception e)
+    {
+        provider.GetRequiredService<ILogger<Program>>().LogError(e, "Failed to load proxy settings");
+        return new ProxySetting();
+    }
+});
 
 var app = builder.Build();
 
@@ -30,14 +41,15 @@ if (app.Environment.IsDevelopment())
     {
         options.SwaggerEndpoint("/swagger/v1/swagger.json", "聚合网关 V1");
 
-        var proxyConfig = app.Services.GetRequiredService<IProxyService>().GetConfig();
-        
-        if (proxyConfig?.Services?.Any() != true)
+        using var scope = app.Services.CreateScope();
+        var proxyConfig = scope.ServiceProvider.GetRequiredService<ProxySetting>();
+
+        if (proxyConfig.Services?.Any() != true)
             return;
 
         foreach (var service in proxyConfig.Services)
         {
-            options.SwaggerEndpoint($"/{service.Appid}/swagger/v1/swagger.json", $"{service.Description} V1");
+            options.SwaggerEndpoint($"/swagger/{service.Appid}/v1/swagger.json", $"{service.Description} V1");
         }
     });
 }

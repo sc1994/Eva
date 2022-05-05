@@ -1,27 +1,16 @@
 ﻿{
-  "iisSettings": {
-    "windowsAuthentication": false,
-    "anonymousAuthentication": true,
-    "iisExpress": {
-      "applicationUrl": "http://localhost:38938",
-      "sslPort": 44358
-    }
-  },
   "profiles": {
     "SingleSignOn": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,
-      "applicationUrl": "https://localhost:7176;http://localhost:5176",
+      "launchUrl": "swagger",
+      "applicationUrl": "http://localhost:5033",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      }
-    },
-    "IIS Express": {
-      "commandName": "IISExpress",
-      "launchBrowser": true,
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "AgileConfig_AppId": "SingleSignOn",
+        "AgileConfig_Secret": "Password@1",
+        "AgileConfig_Nodes": "http://localhost:5005"
       }
     }
   }

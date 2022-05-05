@@ -29,11 +29,11 @@ Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-co
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignalHub", "src\Services\SignalHub\SignalHub.csproj", "{0424F8B1-DC77-4AE1-98DA-3978D87FF326}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HttpAggregator", "src\Gateways\HttpAggregator\HttpAggregator.csproj", "{6551A9C7-C486-4F0E-974E-B3D84F7AA686}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProxyAggregator", "src\Gateways\ProxyAggregator\ProxyAggregator.csproj", "{6551A9C7-C486-4F0E-974E-B3D84F7AA686}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authentication", "src\Services\Authentication\Authentication.csproj", "{9FF30974-2E72-4724-8095-AA99F3BCDCB4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SingleSignOn", "src\Services\SingleSignOn\SingleSignOn.csproj", "{1C6258C8-61E2-46D0-A2C0-F1AA515192FD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SingleSignOn", "src\Services\SingleSignOn\SingleSignOn.csproj", "{14BE4F2E-AB16-4465-A387-8D15F01EEF4A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,7 +57,7 @@ Global
 		{0424F8B1-DC77-4AE1-98DA-3978D87FF326} = {D54CAEDC-3515-475B-9345-A4C6FBC69E74}
 		{6551A9C7-C486-4F0E-974E-B3D84F7AA686} = {D54CAEDC-3515-475B-9345-A4C6FBC69E74}
 		{9FF30974-2E72-4724-8095-AA99F3BCDCB4} = {4CEDCE64-4ED9-48AC-B589-A4148B041EEE}
-		{1C6258C8-61E2-46D0-A2C0-F1AA515192FD} = {4CEDCE64-4ED9-48AC-B589-A4148B041EEE}
+		{14BE4F2E-AB16-4465-A387-8D15F01EEF4A} = {4CEDCE64-4ED9-48AC-B589-A4148B041EEE}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{1D7128A9-F572-4E66-9D5B-18A82F7B3789}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -96,9 +96,9 @@ Global
 		{9FF30974-2E72-4724-8095-AA99F3BCDCB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9FF30974-2E72-4724-8095-AA99F3BCDCB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9FF30974-2E72-4724-8095-AA99F3BCDCB4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1C6258C8-61E2-46D0-A2C0-F1AA515192FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1C6258C8-61E2-46D0-A2C0-F1AA515192FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1C6258C8-61E2-46D0-A2C0-F1AA515192FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1C6258C8-61E2-46D0-A2C0-F1AA515192FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14BE4F2E-AB16-4465-A387-8D15F01EEF4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14BE4F2E-AB16-4465-A387-8D15F01EEF4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14BE4F2E-AB16-4465-A387-8D15F01EEF4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14BE4F2E-AB16-4465-A387-8D15F01EEF4A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

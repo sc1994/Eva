@@ -1,6 +1,6 @@
-namespace Eva.HttpAggregator.Services.ProxyServices.Dto;
+namespace Eva.ProxyAggregator.Options;
 
-public class ProxyServiceDto
+public class ProxyService
 {
     [JsonProperty("appid")]
     public string? Appid { get; set; }
@@ -12,7 +12,7 @@ public class ProxyServiceDto
     public List<string>? Methods { get; set; }
 
     [JsonProperty("headers")]
-    public ProxyHeadersDto? Headers { get; set; }
+    public ProxyHeader? Headers { get; set; }
 
     [JsonProperty("swagger")]
     public string? Swagger { get; set; }

@@ -1,6 +1,6 @@
-namespace Eva.HttpAggregator.Services.ProxyServices.Dto;
+namespace Eva.ProxyAggregator.Options;
 
-public class ProxyHeadersDto
+public class ProxyHeader
 {
     [JsonProperty("request")]
     public IEnumerable<string>? Request { get; set; }

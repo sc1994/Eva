@@ -1,6 +1,6 @@
 ﻿{
   "profiles": {
-    "HttpAggregator": {
+    "ProxyAggregator": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,
@@ -8,7 +8,7 @@
       "applicationUrl": "http://localhost:7066",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "AgileConfig_AppId": "HttpAggregatorID",
+        "AgileConfig_AppId": "ProxyAggregatorID",
         "AgileConfig_Secret": "Password@1",
         "AgileConfig_Nodes": "http://localhost:5005"
       }
