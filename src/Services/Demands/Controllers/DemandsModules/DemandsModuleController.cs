@@ -18,10 +18,7 @@ public class DemandsModuleController : CrudController<DemandsModule, DemandsModu
         var repo = uow.GetRepository<DemandsModule>();
 
         var entity = await repo.Select.Where(x => !x.IsDeleted).Where(x => x.Id.Equals(id)).FirstAsync();
-        if (entity == null)
-        {
-            return false;
-        }
+        if (entity == null) return false;
 
         entity.State = state;
         entity.ModifiedBy = UserName;

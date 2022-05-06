@@ -35,10 +35,7 @@ public abstract class CrudController<TEntity, TOutputDto, TCreateDto, TModifiedD
         var repo = uow.GetRepository<TEntity>();
 
         var entity = await repo.Select.Where(x => !x.IsDeleted).Where(x => x.Id.Equals(id)).FirstAsync();
-        if (entity == null)
-        {
-            return false;
-        }
+        if (entity == null) return false;
 
         entity.IsDeleted = true;
         entity.DeletedBy = UserName;
@@ -58,10 +55,7 @@ public abstract class CrudController<TEntity, TOutputDto, TCreateDto, TModifiedD
         var uow = _freeSql.CreateUnitOfWork();
         var repo = uow.GetRepository<TEntity>();
         var entity = await repo.Select.Where(x => !x.IsDeleted).Where(x => x.Id.Equals(id)).FirstAsync();
-        if (entity == null)
-        {
-            throw new NullReferenceException(nameof(entity));
-        }
+        if (entity == null) throw new NullReferenceException(nameof(entity));
 
         _mapper.Map(input, entity);
         entity.ModifiedBy = UserName;

@@ -8,8 +8,7 @@ public class DemandsModule : BaseEntity
 
     public string Name { get; set; } = string.Empty;
 
-    public string Description { get; set; } = String.Empty;
+    public string Description { get; set; } = string.Empty;
 
-    [Column(MapType = typeof(int))]
-    public ModuleState State { get; set; }
+    [Column(MapType = typeof(int))] public ModuleState State { get; set; }
 }

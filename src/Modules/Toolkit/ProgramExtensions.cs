@@ -3,6 +3,7 @@
 using System.Reflection;
 using AgileConfig.Client;
 using AutoMapper;
+using FreeSql;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -64,11 +65,9 @@ public static class ProgramExtensions
                         if (mapperCaseList.Any() != true) return;
 
                         foreach (var mapperCase in mapperCaseList)
-                        {
                             cfg.CreateProfile(
                                 $"{type.FullName}_mutually_{mapperCase.MapToType.FullName}",
                                 profileConfig => { profileConfig.CreateMap(type, mapperCase.MapToType).DisableCtorValidation().ReverseMap(); });
-                        }
                     });
                 cfg.AddMaps(assemblies);
             }).CreateMapper();
@@ -85,7 +84,7 @@ public static class ProgramExtensions
 
     public static void UseCustomHealthChecks(this IEndpointRouteBuilder app)
     {
-        app.MapHealthChecks("/hc", new HealthCheckOptions()
+        app.MapHealthChecks("/hc", new HealthCheckOptions
         {
             Predicate = _ => true,
             ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
@@ -93,6 +92,18 @@ public static class ProgramExtensions
         app.MapHealthChecks("/liveness", new HealthCheckOptions
         {
             Predicate = r => r.Name.Contains("self")
+        });
+    }
+
+    public static void AddCustomFreeSql(this WebApplicationBuilder builder)
+    {
+        builder.Services.AddSingleton<IFreeSql>(_ =>
+        {
+            var freeSql = new FreeSqlBuilder()
+                .UseConnectionString(DataType.MySql, builder.Configuration["DatabaseConnection"])
+                .UseAutoSyncStructure(true)
+                .Build();
+            return freeSql;
         });
     }
 }

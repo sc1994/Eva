@@ -1,4 +1,4 @@
-﻿namespace Eva.Demands.Entities;
+﻿namespace Eva.ToolKit;
 
 public abstract class BaseEntity
 {

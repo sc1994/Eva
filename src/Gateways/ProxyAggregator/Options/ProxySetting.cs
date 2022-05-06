@@ -2,6 +2,5 @@
 
 public class ProxySetting
 {
-    [JsonProperty("services")]
-    public IEnumerable<ProxyService>? Services { get; set; }
+    [JsonProperty("services")] public IEnumerable<ProxyService>? Services { get; set; }
 }

@@ -13,9 +13,8 @@ public class ModuleTask : BaseEntity
     public DateTime StartDate { get; set; }
 
     public DateTime EndDate { get; set; }
-    
+
     public TaskPriority Priority { get; set; }
-    
-    [Column(MapType = typeof(int))]
-    public TaskState State { get; set; }
+
+    [Column(MapType = typeof(int))] public TaskState State { get; set; }
 }

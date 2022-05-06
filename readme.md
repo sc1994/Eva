@@ -1,6 +1,7 @@
 # 使用Dapr实现的任务管理系统
 
 ### 基本环境配置
+
 配置根目录下 .env 文件内容即可
 
 ### 如何启动
@@ -8,7 +9,7 @@
 整体分为2部分
 
 1. 启动基础服务
-    
+
 ```shell
 docker-compose -f docker-compose.base.yml -p eva_base up -d
 ```
@@ -18,7 +19,6 @@ docker-compose -f docker-compose.base.yml -p eva_base up -d
 ```bash
 docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d
 ```
-
 
 ### 数据初始化
 

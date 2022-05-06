@@ -9,24 +9,27 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.5" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.5"/>
     </ItemGroup>
-    
+
     <ItemGroup>
-      <Folder Include="Controllers\DemandsItems\Dto" />
-      <Folder Include="Infrastructure" />
-      <Folder Include="ServiceInterfaces" />
-      <Folder Include="Services" />
+        <Folder Include="Controllers\DemandsItems\Dto"/>
+        <Folder Include="ServiceInterfaces"/>
+        <Folder Include="Services"/>
     </ItemGroup>
-    
+
     <ItemGroup>
-      <ProjectReference Include="..\..\Modules\Toolkit\Toolkit.csproj" />
+        <ProjectReference Include="..\..\Modules\Toolkit\Toolkit.csproj"/>
     </ItemGroup>
-    
+
     <ItemGroup>
-      <Compile Remove="Controllers\DemandsItems\Dto\DemandsModel.cs" />
-      <Compile Remove="Controllers\DemandsItems\Dto\DemandsModuleModel.cs" />
-      <Compile Remove="Controllers\DemandsItems\Dto\ModuleTaskModel.cs" />
+        <Compile Remove="Controllers\DemandsItems\Dto\DemandsModel.cs"/>
+        <Compile Remove="Controllers\DemandsItems\Dto\DemandsModuleModel.cs"/>
+        <Compile Remove="Controllers\DemandsItems\Dto\ModuleTaskModel.cs"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Remove="ProxyAggregatorID.agileconfig.client.configs.cache"/>
     </ItemGroup>
 
 </Project>

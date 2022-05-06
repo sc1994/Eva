@@ -18,10 +18,7 @@ public class DemandsController : CrudController<DemandsItem, DemandsOutputDto, D
         var repo = uow.GetRepository<DemandsItem>();
 
         var entity = await repo.Select.Where(x => !x.IsDeleted).Where(x => x.Id.Equals(id)).FirstAsync();
-        if (entity == null)
-        {
-            return false;
-        }
+        if (entity == null) return false;
 
         entity.State = state;
         entity.ModifiedBy = UserName;
@@ -33,9 +30,9 @@ public class DemandsController : CrudController<DemandsItem, DemandsOutputDto, D
         return result == 1;
     }
 
-    [HttpGet("ById")]
-    public async Task<DemandsOutputDto> GetById2Async(Guid id)
+    [HttpGet("now")]
+    public string GetDatetimeNow()
     {
-        return await base.GetByIdAsync(id);
+        return DateTime.Now.ToString("f");
     }
 }

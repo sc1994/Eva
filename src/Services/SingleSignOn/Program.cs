@@ -4,6 +4,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.AddCustomSerilog();
 builder.AddCustomAgileConfig();
+builder.AddCustomAutoMapper();
+builder.AddCustomHealthChecks();
+builder.AddCustomFreeSql();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

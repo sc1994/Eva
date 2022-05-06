@@ -1,6 +1,6 @@
-using Eva.ProxyAggregator.Options;
-using HealthChecks.UI.Client;
-using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+// TODO 抽单独文件
+
+using Eva.ProxyAggregator.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +15,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHttpContextAccessor();
 
+// 注入
+builder.Services.AddScoped<ThrowFriendlyException>();
 builder.Services.Configure<ProxySetting>(builder.Configuration.GetSection("ProxySetting"));
 builder.Services.AddScoped<ProxySetting>(provider =>
 {
@@ -22,7 +24,7 @@ builder.Services.AddScoped<ProxySetting>(provider =>
     {
         var json = builder.Configuration["ProxySetting"];
 
-        return JsonConvert.DeserializeObject<ProxySetting>(json) ?? new ProxySetting();
+        return json.ConvertJsonToObject<ProxySetting>() ?? new ProxySetting();
     }
     catch (Exception e)
     {
@@ -33,10 +35,11 @@ builder.Services.AddScoped<ProxySetting>(provider =>
 
 var app = builder.Build();
 
+// 开发环境特有的设置
 if (app.Environment.IsDevelopment())
 {
     app.MapGet("/", () => Results.LocalRedirect("~/swagger"));
-    
+
     app.UseSwagger();
 
     app.UseSwaggerUI(options =>
@@ -49,24 +52,16 @@ if (app.Environment.IsDevelopment())
         if (proxyConfig.Services?.Any() != true)
             return;
 
-        foreach (var service in proxyConfig.Services)
-        {
-            options.SwaggerEndpoint($"/swagger/{service.Appid}/v1/swagger.json", $"{service.Description} V1");
-        }
+        foreach (var service in proxyConfig.Services) options.SwaggerEndpoint($"/swagger/{service.Appid}/v1/swagger.json", $"{service.Description} V1");
     });
 }
 
+app.UseMiddleware<ThrowFriendlyException>();
+
 app.MapControllers();
 app.MapSubscribeHandler();
+app.UseHttpLogging();
 
-app.MapHealthChecks("/hc", new HealthCheckOptions()
-{
-    Predicate = _ => true,
-    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
-});
-app.MapHealthChecks("/liveness", new HealthCheckOptions
-{
-    Predicate = r => r.Name.Contains("self")
-});
+app.UseCustomHealthChecks();
 
 app.Run();

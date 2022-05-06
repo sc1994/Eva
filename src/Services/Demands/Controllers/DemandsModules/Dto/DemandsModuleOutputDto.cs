@@ -6,7 +6,7 @@ public record DemandsModuleOutputDto : BaseOutputDto
 
     public string Name { get; set; } = string.Empty;
 
-    public string Description { get; set; } = String.Empty;
+    public string Description { get; set; } = string.Empty;
 
     public ModuleState State { get; set; }
 }

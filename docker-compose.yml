@@ -11,14 +11,14 @@ services:
       test: "curl --fail http://localhost/liveness || exit 1"
       interval: 3s
       retries: 10
-      
+  
   demands-dapr:
     image: "daprio/daprd:1.6.0"
     network_mode: "service:demands"
     depends_on:
       demands:
         condition: service_healthy
-    command: ["./daprd","-app-id", "demands","-app-port", "80"]
+    command: [ "./daprd","-app-id", "demands","-app-port", "80" ]
 
 
   http-aggregator:
@@ -39,6 +39,6 @@ services:
         condition: service_healthy
       demands-dapr:
         condition: service_started
-    command: [ "./daprd","-app-id", "http-aggregator","-app-port", "80"]
+    command: [ "./daprd","-app-id", "http-aggregator","-app-port", "80" ]
 
     

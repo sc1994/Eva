@@ -18,10 +18,7 @@ public class DaprHealthCheck : IHealthCheck
     {
         var healthy = await _daprClient.CheckHealthAsync(cancellationToken);
 
-        if (healthy)
-        {
-            return HealthCheckResult.Healthy("Dapr sidecar is healthy.");
-        }
+        if (healthy) return HealthCheckResult.Healthy("Dapr sidecar is healthy.");
 
         return new HealthCheckResult(context.Registration.FailureStatus, "Dapr sidecar is unhealthy.");
     }
