@@ -8,7 +8,7 @@
       "applicationUrl": "http://localhost:5033",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "AgileConfig_AppId": "SingleSignOn",
+        "AgileConfig_AppId": "SingleSignOnID",
         "AgileConfig_Secret": "Password@1",
         "AgileConfig_Nodes": "http://localhost:5005",
         "DatabaseConnection": "database=sso;data source=localhost;User Id=root;password=Password@1;port=3306"

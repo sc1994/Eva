@@ -17,10 +17,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="Abstractions" />
-    </ItemGroup>
-
-    <ItemGroup>
         <None Remove="DemandsID.agileconfig.client.configs.cache" />
         <None Remove="agile\**" />
     </ItemGroup>

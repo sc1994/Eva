@@ -1,6 +1,6 @@
 namespace Eva.ProxyAggregator.Options;
 
-public class ProxyHeader
+public record ProxyHeader
 {
     [JsonProperty("request")] public IEnumerable<string>? Request { get; set; }
 

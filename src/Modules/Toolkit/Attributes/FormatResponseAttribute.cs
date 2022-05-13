@@ -1,7 +1,7 @@
-﻿using System.Net.Mime;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace Eva.ProxyAggregator.Attributes;
+namespace Eva.ToolKit.Attributes;
 
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
 public class FormatResponseAttribute : ActionFilterAttribute
@@ -17,19 +17,19 @@ public class FormatResponseAttribute : ActionFilterAttribute
                 new ObjectResult(FormatResponse(objectResult.Value, ctx.HttpContext.TraceIdentifier)),
             JsonResult jsonResult =>
                 new JsonResult(FormatResponse(jsonResult.Value, ctx.HttpContext.TraceIdentifier)),
-            ContentResult contentResult when contentResult.ContentType?.Contains("application/json") == true =>
+            ContentResult contentResult when contentResult.ContentType?.Contains(AppConst.ContentJson) == true =>
                 new ContentResult
                 {
                     Content = FormatResponse(contentResult.Content, ctx.HttpContext.TraceIdentifier, contentResult.StatusCode).ConvertObjectToJson(),
-                    ContentType = "application/json",
-                    StatusCode = contentResult.StatusCode,
+                    ContentType = AppConst.ContentJson,
+                    StatusCode = contentResult.StatusCode
                 },
-            ContentResult contentResult when contentResult.ContentType?.Contains("text/plain") == true =>
+            ContentResult contentResult when contentResult.ContentType?.Contains(AppConst.ContentText) == true =>
                 new ContentResult
                 {
                     Content = FormatResponse(contentResult.Content, ctx.HttpContext.TraceIdentifier, contentResult.StatusCode == 200).ConvertObjectToJson(),
-                    ContentType = "application/json",
-                    StatusCode = contentResult.StatusCode,
+                    ContentType = AppConst.ContentJson,
+                    StatusCode = contentResult.StatusCode
                 },
             _ => ctx.Result
         };
@@ -39,11 +39,9 @@ public class FormatResponseAttribute : ActionFilterAttribute
 
     private object FormatResponse(object? response, string traceIdentifier, bool success = true)
     {
-        return new
+        return new GoodResponse
         {
-            success,
-            result = response,
-            requestId = traceIdentifier
+            Result = response
         };
     }
 

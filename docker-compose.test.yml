@@ -26,3 +26,16 @@ services:
     ports:
       - "9001:80"
       - "50001:50001"
+
+  single-sign-on:
+    environment:
+      - TZ=Asia/Shanghai
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://0.0.0.0:80
+      - DatabaseConnection= database=sso;data source=${EXTERNAL_IP};User Id=root;password=${MYSQL_PASS_WORD};port=3306
+      - AgileConfig_AppId=SingleSignOnID
+      - AgileConfig_Secret=${CONFIGCENTER_PASS_WORD}
+      - AgileConfig_Nodes=http://${EXTERNAL_IP}:5005
+      - AgileConfig_Env=DEV
+    ports:
+      - "50003:50001"

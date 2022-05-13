@@ -41,4 +41,25 @@ services:
         condition: service_started
     command: [ "./daprd","-app-id", "http-aggregator","-app-port", "80" ]
 
+
+  single-sign-on:
+    image: ${REGISTRY:-eva}/single-sign-on:${TAG:-latest}
+    build:
+      context: .
+      dockerfile: src/Services/SingleSignOn/Dockerfile
+    healthcheck:
+      test: "curl --fail http://localhost/liveness || exit 1"
+      interval: 3s
+      retries: 10
+
+  single-sign-on-dapr:
+    image: "daprio/daprd:1.6.0"
+    network_mode: "service:single-sign-on"
+    depends_on:
+      single-sign-on:
+        condition: service_healthy
+      demands-dapr:
+        condition: service_started
+    command: [ "./daprd","-app-id", "single-sign-on","-app-port", "80" ]
+
     

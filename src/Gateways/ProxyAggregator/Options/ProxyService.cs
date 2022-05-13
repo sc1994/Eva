@@ -1,6 +1,6 @@
 namespace Eva.ProxyAggregator.Options;
 
-public class ProxyService
+public record ProxyService
 {
     [JsonProperty("appid")] public string? Appid { get; set; }
 

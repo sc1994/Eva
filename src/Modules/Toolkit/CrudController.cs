@@ -1,9 +1,14 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
+using AutoMapper;
+using Eva.ToolKit.Attributes;
+using Microsoft.AspNetCore.Mvc;
 
-namespace Eva.Demands.Controllers;
+namespace Eva.ToolKit;
 
 [Route("/[controller]")]
 [ApiController]
+[FormatResponse]
 public abstract class CrudController<TEntity, TOutputDto, TCreateDto, TModifiedDto> : ControllerBase
     where TEntity : BaseEntity
     where TOutputDto : BasePrimaryKey
