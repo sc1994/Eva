@@ -14,12 +14,12 @@ services:
     ports:
       - "50002:50001"
   
-  http-aggregator:
+  aggregator:
     environment:
       - TZ=Asia/Shanghai
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:80
-      - AgileConfig_AppId=ProxyAggregatorID
+      - AgileConfig_AppId=AggregatorID
       - AgileConfig_Secret=${CONFIGCENTER_PASS_WORD}
       - AgileConfig_Nodes=http://${EXTERNAL_IP}:5005
       - AgileConfig_Env=DEV

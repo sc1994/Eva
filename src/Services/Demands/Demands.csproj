@@ -9,28 +9,24 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\Modules\Toolkit\Toolkit.csproj" />
+        <ProjectReference Include="..\..\Modules\Toolkit\Toolkit.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.5" />
+        <None Remove="DemandsID.agileconfig.client.configs.cache"/>
+        <None Remove="agile\**"/>
     </ItemGroup>
 
     <ItemGroup>
-        <None Remove="DemandsID.agileconfig.client.configs.cache" />
-        <None Remove="agile\**" />
+        <Compile Remove="agile\**"/>
     </ItemGroup>
 
     <ItemGroup>
-        <Compile Remove="agile\**" />
+        <EmbeddedResource Remove="agile\**"/>
     </ItemGroup>
 
     <ItemGroup>
-        <EmbeddedResource Remove="agile\**" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <Content Remove="agile\**" />
+        <Content Remove="agile\**"/>
     </ItemGroup>
 
 </Project>

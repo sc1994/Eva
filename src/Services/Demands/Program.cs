@@ -1,14 +1,14 @@
 var builder = WebApplication.CreateBuilder(args);
 
+builder.AddCustomController(typeof(Program).Assembly);
 builder.AddCustomAgileConfig();
 builder.AddCustomSerilog();
 builder.AddCustomAutoMapper();
 builder.AddCustomHealthChecks();
 builder.AddCustomFreeSql();
+builder.AddCustomSwagger();
 
-builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 builder.Services.AddDaprClient();
 
 var app = builder.Build();

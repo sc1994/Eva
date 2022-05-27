@@ -15,8 +15,6 @@
         <None Include="docker-compose.yml"/>
         <None Include=".dockerignore"/>
         <None Include=".env"/>
-    </ItemGroup>
-    <ItemGroup>
-        <Content Include="readme.md"/>
+        <None Include="sources.list"/>
     </ItemGroup>
 </Project>

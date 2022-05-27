@@ -1,8 +1,8 @@
-﻿// Only use in this file to avoid conflicts with Microsoft.Extensions.Logging
-
-using System.Reflection;
+﻿using System.Reflection;
 using AgileConfig.Client;
 using AutoMapper;
+using Eva.ToolKit.Attributes;
+using FluentValidation.AspNetCore;
 using FreeSql;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Builder;
@@ -11,7 +11,11 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Microsoft.OpenApi.Models;
+using Newtonsoft.Json.Serialization;
 using Serilog;
+using Serilog.Core;
+using Serilog.Events;
 
 namespace Eva.ToolKit;
 
@@ -31,9 +35,28 @@ public static class ProgramExtensions
                 .Enrich.WithProperty("ApplicationName", appName);
         }
 
+        logConfig.Filter.With<LogConfigFilter>();
+
         Log.Logger = logConfig.CreateLogger();
 
         builder.Host.UseSerilog();
+    }
+
+    private class LogConfigFilter : ILogEventFilter
+    {
+        public bool IsEnabled(LogEvent logEvent)
+        {
+            if (logEvent.Properties.ContainsKey("RequestPath"))
+            {
+                var path = (logEvent.Properties["RequestPath"] as ScalarValue)?.Value.ToString();
+                if (path is "/hc" or "/liveness")
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
     }
 
     public static void AddCustomAgileConfig(this WebApplicationBuilder builder)
@@ -52,7 +75,7 @@ public static class ProgramExtensions
     {
         var assemblies = AppDomain.CurrentDomain.GetAssemblies();
 
-        builder.Services.AddSingleton(provider =>
+        builder.Services.AddSingleton(_ =>
         {
             return new MapperConfiguration(cfg =>
             {
@@ -105,5 +128,57 @@ public static class ProgramExtensions
                 .Build();
             return freeSql;
         });
+    }
+
+    public static void AddCustomController(this WebApplicationBuilder builder, Assembly thisAssembly)
+    {
+        builder.Services.AddControllers(options => { options.Filters.Add<ValidateModelStateAttribute>(); })
+            .AddFluentValidation(configuration => { configuration.RegisterValidatorsFromAssembly(thisAssembly); })
+            .ConfigureApiBehaviorOptions(options => { options.SuppressModelStateInvalidFilter = true; })
+            .AddNewtonsoftJson(options =>
+            {
+                options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss";
+                options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            });
+    }
+
+    public static void UseStaticDIUtility(this IEndpointRouteBuilder app)
+    {
+        DIUtility.SetGlobalServiceProvider(app.ServiceProvider);
+    }
+
+    public static void AddCustomSwagger(this WebApplicationBuilder builder)
+    {
+        builder.Services.AddSwaggerGen(c =>
+            {
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Description = @"JWT Authorization header using the Bearer scheme. <br /><br /> 
+                              Enter 'Bearer' [space] and then your token in the text input below.
+                              <br /><br />Example: 'Bearer 12345abcdef'",
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Scheme = "Bearer"
+                });
+
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement()
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            },
+                            Scheme = "oauth2",
+                            Name = "Bearer",
+                            In = ParameterLocation.Header,
+                        },
+                        new List<string>()
+                    }
+                });
+            }
+        );
     }
 }

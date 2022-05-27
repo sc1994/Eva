@@ -11,10 +11,4 @@ public abstract class BaseEntity
     public DateTime CreatedDate { get; set; }
 
     public DateTime ModifiedDate { get; set; }
-
-    public bool IsDeleted { get; set; }
-
-    public string DeletedBy { get; set; } = string.Empty;
-
-    public DateTime DeletedDate { get; set; }
 }

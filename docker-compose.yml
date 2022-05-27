@@ -18,28 +18,30 @@ services:
     depends_on:
       demands:
         condition: service_healthy
-    command: [ "./daprd","-app-id", "demands","-app-port", "80" ]
+    command: [ "./daprd","-app-id", "demands","-app-port", "80"  ,"-config", "/configuration/eshop-config.yaml" ]
 
 
-  http-aggregator:
-    image: ${REGISTRY:-eva}/http-aggregator:${TAG:-latest}
+  aggregator:
+    image: ${REGISTRY:-eva}/aggregator:${TAG:-latest}
     build:
       context: .
-      dockerfile: src/Gateways/ProxyAggregator/Dockerfile
+      dockerfile: src/Gateways/Aggregator/Dockerfile
     healthcheck:
       test: "curl --fail http://localhost/liveness || exit 1"
       interval: 3s
       retries: 10
 
-  http-aggregator-dapr:
+  aggregator-dapr:
     image: "daprio/daprd:1.6.0"
-    network_mode: "service:http-aggregator"
+    network_mode: "service:aggregator"
     depends_on:
-      http-aggregator:
+      aggregator:
         condition: service_healthy
       demands-dapr:
         condition: service_started
-    command: [ "./daprd","-app-id", "http-aggregator","-app-port", "80" ]
+      single-sign-on-dapr:
+        condition: service_started
+    command: [ "./daprd","-app-id", "aggregator","-app-port", "80" ,"-config", "/configuration/eshop-config.yaml" ]
 
 
   single-sign-on:
@@ -58,8 +60,6 @@ services:
     depends_on:
       single-sign-on:
         condition: service_healthy
-      demands-dapr:
-        condition: service_started
-    command: [ "./daprd","-app-id", "single-sign-on","-app-port", "80" ]
+    command: [ "./daprd","-app-id", "single-sign-on","-app-port", "80" ,"-config", "/configuration/eshop-config.yaml" ]
 
     

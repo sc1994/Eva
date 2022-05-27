@@ -29,9 +29,16 @@ Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-co
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignalHub", "src\Services\SignalHub\SignalHub.csproj", "{0424F8B1-DC77-4AE1-98DA-3978D87FF326}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProxyAggregator", "src\Gateways\ProxyAggregator\ProxyAggregator.csproj", "{6551A9C7-C486-4F0E-974E-B3D84F7AA686}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aggregator", "src\Gateways\Aggregator\Aggregator.csproj", "{6551A9C7-C486-4F0E-974E-B3D84F7AA686}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SingleSignOn", "src\Services\SingleSignOn\SingleSignOn.csproj", "{14BE4F2E-AB16-4465-A387-8D15F01EEF4A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dapr", "dapr", "{897B0506-4F1F-4383-833F-DA0EDFE0FED9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "configuration", "configuration", "{43B05ED9-B8C1-4874-9ED4-514AC723C741}"
+	ProjectSection(SolutionItems) = preProject
+		dapr\configuration\eva-config.yaml = dapr\configuration\eva-config.yaml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,6 +62,7 @@ Global
 		{0424F8B1-DC77-4AE1-98DA-3978D87FF326} = {D54CAEDC-3515-475B-9345-A4C6FBC69E74}
 		{6551A9C7-C486-4F0E-974E-B3D84F7AA686} = {D54CAEDC-3515-475B-9345-A4C6FBC69E74}
 		{14BE4F2E-AB16-4465-A387-8D15F01EEF4A} = {4CEDCE64-4ED9-48AC-B589-A4148B041EEE}
+		{43B05ED9-B8C1-4874-9ED4-514AC723C741} = {897B0506-4F1F-4383-833F-DA0EDFE0FED9}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{1D7128A9-F572-4E66-9D5B-18A82F7B3789}.Debug|Any CPU.ActiveCfg = Debug|Any CPU

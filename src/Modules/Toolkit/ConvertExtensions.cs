@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace Eva.ToolKit;
 
@@ -18,10 +19,15 @@ public static class ConvertExtensions
         return JsonConvert.DeserializeObject(json);
     }
 
-    public static string? ConvertObjectToJson(this object? obj)
+    public static string? ConvertObjectToJson(this object? obj, IContractResolver? contractResolver = null)
     {
         if (obj == null) return null;
 
-        return JsonConvert.SerializeObject(obj);
+        var settings = new JsonSerializerSettings
+        {
+            ContractResolver = contractResolver ?? new DefaultContractResolver()
+        };
+
+        return JsonConvert.SerializeObject(obj, settings);
     }
 }
