@@ -27,7 +27,8 @@ public class JwtService : IJwtService
             {
                 new Claim(nameof(data.UserName), data.UserName),
                 new Claim(nameof(data.Avatar), data.Avatar),
-                new Claim(nameof(data.Roles), data.Roles.ConvertObjectToJson() ?? throw new NullReferenceException(nameof(data.Roles))),
+                new Claim(nameof(data.Phone), data.Phone),
+                new Claim(nameof(data.Roles), data.Roles.ConvertObjectToJson() ?? throw new NullReferenceException(nameof(data.Roles)))
             }),
             Expires = DateTime.UtcNow.AddSeconds(jwtSetting.Expiration),
             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
@@ -38,10 +39,7 @@ public class JwtService : IJwtService
 
     public async Task<UserInfoBo> ParseJwt(string jwt)
     {
-        if (!jwt.StartsWith("Bearer "))
-        {
-            throw new ArgumentException("token not start with Bearer ");
-        }
+        if (!jwt.StartsWith("Bearer ")) throw new ArgumentException("token not start with Bearer ");
 
         jwt = jwt.Substring("Bearer ".Length);
 
@@ -70,6 +68,8 @@ public class JwtService : IJwtService
                      ?? throw new NullReferenceException(nameof(UserInfoBo.Avatar)),
             Roles = jwtToken.Claims.FirstOrDefault(x => x.Type == nameof(UserInfoBo.Roles))?.Value.ConvertJsonToObject<string[]>()
                     ?? throw new NullReferenceException(nameof(UserInfoBo.Roles)),
+            Phone = jwtToken.Claims.FirstOrDefault(x => x.Type == nameof(UserInfoBo.Phone))?.Value
+                    ?? throw new NullReferenceException(nameof(UserInfoBo.Phone)),
         });
     }
 }

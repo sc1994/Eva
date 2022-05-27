@@ -19,6 +19,7 @@ FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 
+ADD sources.list /etc/apt
 RUN apt-get update && apt-get install -y curl
 
 ENTRYPOINT ["dotnet", "SingleSignOn.dll"]

@@ -1,6 +1,6 @@
 ﻿using Eva.ToolKit.Exceptions;
 using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace Eva.ToolKit.Middlewares;
 
@@ -26,16 +26,16 @@ public class ThrowFriendlyException : IMiddleware
     {
         cxt.Response.ContentType = AppConst.ContentJson;
 
-        await cxt.Response.WriteAsync(JsonConvert.SerializeObject(new BadResponse()
+        await cxt.Response.WriteAsync(new BadResponse
         {
             Code = code,
             SubCode = subCode,
             Title = title,
-            Message = exception.Message,
+            Messages = new[] {exception.Message},
 #if DEBUG
             Exception = exception,
 #endif
             RequestId = cxt.TraceIdentifier
-        }));
+        }.ConvertObjectToJson(new CamelCasePropertyNamesContractResolver()) ?? string.Empty);
     }
 }

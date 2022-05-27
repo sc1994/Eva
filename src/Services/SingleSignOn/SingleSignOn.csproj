@@ -16,4 +16,8 @@
         <ProjectReference Include="..\..\Modules\Toolkit\Toolkit.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+        <None Remove="SingleSignOnID.agileconfig.client.configs.cache" />
+    </ItemGroup>
+
 </Project>

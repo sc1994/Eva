@@ -3,6 +3,8 @@
 using System.Reflection;
 using AgileConfig.Client;
 using AutoMapper;
+using Eva.ToolKit.Attributes;
+using FluentValidation.AspNetCore;
 using FreeSql;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Builder;
@@ -11,6 +13,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Newtonsoft.Json.Serialization;
 using Serilog;
 
 namespace Eva.ToolKit;
@@ -105,5 +108,22 @@ public static class ProgramExtensions
                 .Build();
             return freeSql;
         });
+    }
+
+    public static void AddCustomController(this WebApplicationBuilder builder, Assembly thisAssembly)
+    {
+        builder.Services.AddControllers(options => { options.Filters.Add<ValidateModelStateAttribute>(); })
+            .AddFluentValidation(configuration => { configuration.RegisterValidatorsFromAssembly(thisAssembly); })
+            .ConfigureApiBehaviorOptions(options => { options.SuppressModelStateInvalidFilter = true; })
+            .AddNewtonsoftJson(options =>
+            {
+                options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss";
+                options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            });
+    }
+
+    public static void UseStaticDIUtility(this IEndpointRouteBuilder app)
+    {
+        DIUtility.SetGlobalServiceProvider(app.ServiceProvider);
     }
 }

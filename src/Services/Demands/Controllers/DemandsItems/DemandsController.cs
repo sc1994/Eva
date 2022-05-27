@@ -17,7 +17,7 @@ public class DemandsController : CrudController<DemandsItem, DemandsOutputDto, D
         using var uow = _freeSql.CreateUnitOfWork();
         var repo = uow.GetRepository<DemandsItem>();
 
-        var entity = await repo.Select.Where(x => !x.IsDeleted).Where(x => x.Id.Equals(id)).FirstAsync();
+        var entity = await repo.Select.Where(x => x.Id.Equals(id)).FirstAsync();
         if (entity == null) return false;
 
         entity.State = state;

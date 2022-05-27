@@ -29,7 +29,7 @@ Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-co
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignalHub", "src\Services\SignalHub\SignalHub.csproj", "{0424F8B1-DC77-4AE1-98DA-3978D87FF326}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProxyAggregator", "src\Gateways\ProxyAggregator\ProxyAggregator.csproj", "{6551A9C7-C486-4F0E-974E-B3D84F7AA686}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aggregator", "src\Gateways\Aggregator\Aggregator.csproj", "{6551A9C7-C486-4F0E-974E-B3D84F7AA686}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SingleSignOn", "src\Services\SingleSignOn\SingleSignOn.csproj", "{14BE4F2E-AB16-4465-A387-8D15F01EEF4A}"
 EndProject

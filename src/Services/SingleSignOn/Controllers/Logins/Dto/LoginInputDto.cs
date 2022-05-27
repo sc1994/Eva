@@ -1,3 +1,3 @@
 ﻿namespace Eva.SingleSignOn.Controllers.Logins.Dto;
 
-public record LoginInputDto([Required] string UserName, [Required] string Password);
+public record LoginInputDto(string Phone, string Password);
