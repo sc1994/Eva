@@ -9,23 +9,21 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Folder Include="Controllers\DemandsItems\Dto"/>
-        <Folder Include="ServiceInterfaces"/>
-        <Folder Include="Services"/>
+        <Folder Include="Controllers\DemandsItems\Dto" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\Modules\Toolkit\Toolkit.csproj"/>
+        <ProjectReference Include="..\..\Modules\Toolkit\Toolkit.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-        <Compile Remove="Controllers\DemandsItems\Dto\DemandsModel.cs"/>
-        <Compile Remove="Controllers\DemandsItems\Dto\DemandsModuleModel.cs"/>
-        <Compile Remove="Controllers\DemandsItems\Dto\ModuleTaskModel.cs"/>
+        <Compile Remove="Controllers\DemandsItems\Dto\DemandsModel.cs" />
+        <Compile Remove="Controllers\DemandsItems\Dto\DemandsModuleModel.cs" />
+        <Compile Remove="Controllers\DemandsItems\Dto\ModuleTaskModel.cs" />
     </ItemGroup>
 
     <ItemGroup>
-        <None Remove="AggregatorID.agileconfig.client.configs.cache"/>
+        <None Remove="AggregatorID.agileconfig.client.configs.cache" />
     </ItemGroup>
 
 </Project>

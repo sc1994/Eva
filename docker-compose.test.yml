@@ -39,3 +39,17 @@ services:
       - AgileConfig_Env=DEV
     ports:
       - "50003:50001"
+  
+  webstatus:
+    image: xabarilcoding/healthchecksui
+    environment:
+      - TZ=Asia/Shanghai
+      - ASPNETCORE_URLS=http://0.0.0.0:80
+      - HealthChecksUI__HealthChecks__0__Name=Single Sign On
+      - HealthChecksUI__HealthChecks__0__Uri=http://single-sign-on/hc
+      - HealthChecksUI__HealthChecks__1__Name=Demands
+      - HealthChecksUI__HealthChecks__1__Uri=http://demands/hc
+      - HealthChecksUI__HealthChecks__2__Name=Aggregator
+      - HealthChecksUI__HealthChecks__2__Uri=http://aggregator/hc
+    ports:
+      - "5107:80"

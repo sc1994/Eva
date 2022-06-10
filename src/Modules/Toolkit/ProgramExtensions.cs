@@ -14,7 +14,6 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Serialization;
 using Serilog;
-using Serilog.Core;
 using Serilog.Events;
 
 namespace Eva.ToolKit;
@@ -35,16 +34,7 @@ public static class ProgramExtensions
                 .Enrich.WithProperty("ApplicationName", appName);
         }
 
-        logConfig.Filter.With<LogConfigFilter>();
-
-        Log.Logger = logConfig.CreateLogger();
-
-        builder.Host.UseSerilog();
-    }
-
-    private class LogConfigFilter : ILogEventFilter
-    {
-        public bool IsEnabled(LogEvent logEvent)
+        logConfig.Filter.ByExcluding(logEvent =>
         {
             if (logEvent.Properties.ContainsKey("RequestPath"))
             {
@@ -56,7 +46,11 @@ public static class ProgramExtensions
             }
 
             return true;
-        }
+        });
+
+        Log.Logger = logConfig.CreateLogger();
+
+        builder.Host.UseSerilog();
     }
 
     public static void AddCustomAgileConfig(this WebApplicationBuilder builder)
@@ -102,7 +96,8 @@ public static class ProgramExtensions
         builder.Services
             .AddHealthChecks()
             .AddCheck("self", () => HealthCheckResult.Healthy())
-            .AddCheck<DaprHealthCheck>("dapr");
+            .AddCheck<DaprHealthCheck>("dapr")
+            .AddMySql(builder.Configuration["DatabaseConnection"]);
     }
 
     public static void UseCustomHealthChecks(this IEndpointRouteBuilder app)
@@ -114,7 +109,8 @@ public static class ProgramExtensions
         });
         app.MapHealthChecks("/liveness", new HealthCheckOptions
         {
-            Predicate = r => r.Name.Contains("self")
+            Predicate = r => r.Name.Contains("self"),
+            ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
         });
     }
 

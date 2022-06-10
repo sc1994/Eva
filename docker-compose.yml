@@ -18,7 +18,9 @@ services:
     depends_on:
       demands:
         condition: service_healthy
-    command: [ "./daprd","-app-id", "demands","-app-port", "80"  ,"-config", "/configuration/eshop-config.yaml" ]
+    command: [ "./daprd","-app-id", "demands","-app-port", "80"  ,"-config", "/dapr/configuration/eva-config.yaml" ]
+    volumes:
+      - "./dapr/:/dapr"
 
 
   aggregator:
@@ -41,7 +43,9 @@ services:
         condition: service_started
       single-sign-on-dapr:
         condition: service_started
-    command: [ "./daprd","-app-id", "aggregator","-app-port", "80" ,"-config", "/configuration/eshop-config.yaml" ]
+    command: [ "./daprd","-app-id", "aggregator","-app-port", "80" ,"-config", "/dapr/configuration/eva-config.yaml" ]
+    volumes:
+      - "./dapr/:/dapr"
 
 
   single-sign-on:
@@ -60,6 +64,8 @@ services:
     depends_on:
       single-sign-on:
         condition: service_healthy
-    command: [ "./daprd","-app-id", "single-sign-on","-app-port", "80" ,"-config", "/configuration/eshop-config.yaml" ]
+    command: [ "./daprd","-app-id", "single-sign-on","-app-port", "80" ,"-config", "/dapr/configuration/eva-config.yaml" ]
+    volumes:
+      - "./dapr/:/dapr"
 
     

@@ -42,14 +42,6 @@ services:
       - TZ=Asia/Shanghai
     ports:
       - "5411:9411"
-  
-  webstatus:
-    restart: always
-    image: xabarilcoding/healthchecksui:5.0.0
-    environment:
-      TZ: Asia/Shanghai
-    ports:
-      - "5107:80"
 
   dapr-placement:
     restart: always
